@@ -212,6 +212,7 @@ def fetch_llvm(llvm_revision):
 
     def checkout():
         if LLVM_BRANCH:
+            exec_subprocess_call('git fetch', srcdir)
             exec_subprocess_call('git checkout %s' % LLVM_BRANCH, srcdir)
         else:
             exec_subprocess_call('git checkout cling-patches-r%s' % llvm_revision, srcdir)
