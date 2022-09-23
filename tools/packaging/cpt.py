@@ -1952,7 +1952,7 @@ elif OS == 'Linux':
             Do you want to continue? [yes/no]: ''', args['y']).lower()
         if choice in yes:
             subprocess.call(
-                "sudo {0} -m pip install distro".format(sys.executable),
+                "sudo {0} -m pip3 install distro".format(sys.executable),
                 shell=True
             )
             import distro
