@@ -649,6 +649,7 @@ def compile_for_binary(arg):
 def install_prefix():
     travis_fold_start("install")
     global prefix
+    CPT_SRC_DIR = os.path.join(srcdir, 'tools', 'cling', 'tools', 'packaging')
     set_vars()
 
     box_draw("Filtering Cling's libraries and binaries")
