@@ -469,12 +469,15 @@ def set_vars():
         if not os.path.exists(os.path.join(LLVM_OBJ_ROOT, 'test')):
             os.mkdir(os.path.join(LLVM_OBJ_ROOT, 'test'))
 
-    with open(os.path.join(LLVM_OBJ_ROOT, 'test', 'lit.site.cfg.py'), 'r') as lit_site_cfg:
-        for line in lit_site_cfg:
-            if re.match('^config.llvm_shlib_ext = ', line):
-                SHLIBEXT = re.sub('^config.llvm_shlib_ext = ', '', line).replace('"', '').strip()
-            elif re.match('^config.llvm_exe_ext = ', line):
-                EXEEXT = re.sub('^config.llvm_exe_ext = ', '', line).replace('"', '').strip()
+    try:
+        with open(os.path.join(LLVM_OBJ_ROOT, 'test', 'lit.site.cfg.py'), 'r') as lit_site_cfg:
+            for line in lit_site_cfg:
+                if re.match('^config.llvm_shlib_ext = ', line):
+                    SHLIBEXT = re.sub('^config.llvm_shlib_ext = ', '', line).replace('"', '').strip()
+                elif re.match('^config.llvm_exe_ext = ', line):
+                    EXEEXT = re.sub('^config.llvm_exe_ext = ', '', line).replace('"', '').strip()
+    except Exception as e:
+        print(e)
 
     if not os.path.isfile(os.path.join(LLVM_OBJ_ROOT, 'tools', 'clang', 'include', 'clang', 'Basic', 'Version.inc')):
         exec_subprocess_call('make Version.inc',
