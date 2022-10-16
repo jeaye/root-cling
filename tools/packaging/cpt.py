@@ -64,7 +64,7 @@ def _perror(e):
     sys.exit(e.returncode)
 
 
-def exec_subprocess_call(cmd, cwd, showCMD=False):
+def exec_subprocess_call(cmd, cwd, showCMD=False, allowFailure=False):
     if showCMD:
         print(cmd)
     cmd = _convert_subprocess_cmd(cmd)
@@ -72,7 +72,10 @@ def exec_subprocess_call(cmd, cwd, showCMD=False):
         subprocess.check_call(cmd, cwd=cwd, shell=False,
                               stdin=subprocess.PIPE, stdout=None, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as e:
-        _perror(e)
+        if allowFailure:
+            return
+        else:
+            _perror(e)
 
 
 def exec_subprocess_check_output(cmd, cwd):
@@ -430,7 +433,10 @@ def fetch_cling(arg):
 
         checkout_branch = CLING_BRANCH if CLING_BRANCH else arg
         exec_subprocess_call('git checkout %s' % checkout_branch, CLING_SRC_DIR)
-        exec_subprocess_call('git merge origin/%s' % checkout_branch, CLING_SRC_DIR)
+        try:
+            exec_subprocess_call('git merge origin/%s' % checkout_branch, CLING_SRC_DIR, False, True)
+        except Exception as e:
+            exec_subprocess_call('git merge refs/tags/%s' % checkout_branch, CLING_SRC_DIR)
 
     if os.path.isdir(CLING_SRC_DIR):
         update_old_cling()
