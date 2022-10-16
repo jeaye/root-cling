@@ -2602,10 +2602,11 @@ if args['dmg_tag'] or args['dmg_tag_build']:
     cleanup()
 
 if args['create_dev_env']:
-    llvm_revision = urlopen(
-        "https://raw.githubusercontent.com/root-project/" +
-        "cling/master/LastKnownGoodLLVMSVNRevision.txt"
-    ).readline().strip().decode('utf-8')
+    #llvm_revision = urlopen(
+    #    "https://raw.githubusercontent.com/root-project/" +
+    #    "cling/master/LastKnownGoodLLVMSVNRevision.txt"
+    #).readline().strip().decode('utf-8')
+    llvm_revision = 'release_50'
     fetch_llvm(llvm_revision)
     fetch_clang(llvm_revision)
     fetch_cling('master')
