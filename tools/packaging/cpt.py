@@ -1871,6 +1871,7 @@ parser.add_argument('--with-cling-branch', action='store', help='Specify a parti
 
 parser.add_argument('--with-llvm-binary', help='Download LLVM binary and use it to build Cling in dev mode', action='store_true')
 parser.add_argument('--with-llvm-tar', help='Download and use LLVM binary release tar to build Cling for debugging', action='store_true')
+parser.add_argument('--with-llvm-release', help='LLVM version to override', action='store')
 parser.add_argument('--no-test', help='Do not run test suite of Cling', action='store_true')
 parser.add_argument('--skip-cleanup', help='Do not clean up after a build', action='store_true')
 parser.add_argument('--allow-dirty', help='Do not stash and clean changes when rebuilding', action='store_true')
@@ -2615,7 +2616,7 @@ if args['create_dev_env']:
     #    "https://raw.githubusercontent.com/root-project/" +
     #    "cling/master/LastKnownGoodLLVMSVNRevision.txt"
     #).readline().strip().decode('utf-8')
-    llvm_revision = 'release_50'
+    llvm_revision = args['with_llvm_release']
     fetch_llvm(llvm_revision)
     fetch_clang(llvm_revision)
     fetch_cling('master')
